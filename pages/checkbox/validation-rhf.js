@@ -23,26 +23,29 @@ const Page = () => {
     console.log("option3", options.has("option3"));
   });
 
-  return <form onSubmit={handleSubmitForm}>{/* ... */}</form>;
+  return (
+    <form onSubmit={handleSubmitForm}>
+      <div className="flex flex-col gap-4">
+        <label className="flex items-center gap-4">
+          <input type="checkbox" name="Checked" value="option1" {...register("options")} />
+          Option 1
+        </label>
+        <label className="flex items-center gap-4">
+          <input type="checkbox" name="Checked" value="option2" {...register("options")} />
+          Option 2
+        </label>
+        <label className="flex items-center gap-4">
+          <input type="checkbox" name="Checked" value="option3" {...register("options")} />
+          Option 3
+        </label>
+      </div>
+      <div>
+        <button className="disabled:opacity-50" type="submit" disabled={getNumberOfCheckedOptions() > 2}>
+          Submit
+        </button>
+      </div>
+    </form>
+  );
 };
-// <div className="flex flex-col gap-4">
-//   <label className="flex items-center gap-4">
-//     <input type="checkbox" name="Checked" value="option1" {...register("options")} />
-//     Option 1
-//   </label>
-//   <label className="flex items-center gap-4">
-//     <input type="checkbox" name="Checked" value="option2" {...register("options")} />
-//     Option 2
-//   </label>
-//   <label className="flex items-center gap-4">
-//     <input type="checkbox" name="Checked" value="option3" {...register("options")} />
-//     Option 3
-//   </label>
-// </div>
-// <div>
-//   <button className="disabled:opacity-50" type="submit" disabled={getNumberOfCheckedOptions() > 2}>
-//     Submit
-//   </button>
-// </div>
 
 export default Page;
