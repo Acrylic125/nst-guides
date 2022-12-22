@@ -1,4 +1,4 @@
-import { withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import React, { useState } from "react";
 
 /** @type {import("next").NextPage<import("next").InferGetServerSidePropsType<typeof getServerSideProps>>} */
@@ -47,36 +47,28 @@ const Page = ({ pageErrorMessage, options }) => {
 export default Page;
 
 /** @type {import("next").GetServerSideProps} */
-// export const getServerSideProps = withPageAuth({
-//   authRequired: false,
-//   getServerSideProps: async (context, supabaseClient) => {
-//     // ...
-//   },
-// });
-export const getServerSideProps = withPageAuth({
-  authRequired: false,
-  getServerSideProps: async (context, supabaseClient) => {
-    const { error, data } = await supabaseClient
-      .from("checkbox_casestudy_1_1")
-      .select("*")
-      .order("created_at", {
-        ascending: false,
-      })
-      .limit(1);
+export const getServerSideProps = async (context) => {
+  const supabaseClient = createServerSupabaseClient(context);
+  const { error, data } = await supabaseClient
+    .from("checkbox_casestudy_1_1")
+    .select("*")
+    .order("created_at", {
+      ascending: false,
+    })
+    .limit(1);
 
-    if (error) {
-      return {
-        props: {
-          pageErrorMessage: error.message,
-        },
-      };
-    }
-
-    const record = data instanceof Array && data.length > 0 ? data[0] : null;
+  if (error) {
     return {
       props: {
-        options: record,
+        pageErrorMessage: error.message,
       },
     };
-  },
-});
+  }
+
+  const options = data instanceof Array && data.length > 0 ? data[0] : null;
+  return {
+    props: {
+      options: options,
+    },
+  };
+};
