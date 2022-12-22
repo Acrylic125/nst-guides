@@ -86,7 +86,7 @@ const Page = () => {
 //       </label>
 //     </form>
 //   );
-// // };
+// };
 
 // const Page = () => {
 //   const [checked, setChecked] = useState(false);
